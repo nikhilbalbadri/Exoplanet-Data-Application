@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<title>Analyze Exoplanet Data</title>
+	<style>
+	h1 {
+		margin-top: 7rem;
+		color: chocolate
+	}
+	p{
+	    margin-top: 36px;
+	}
+	.form-group{
+	    margin: 3rem !important;
+	}
+	.form-control{
+		width: 90%
+	}
+	label{
+		font-size:3rem;
+	}
+	</style>
+	<script>
+	function resetForm() {
+		$('#orphanPlanets').empty();
+		$('#hottestStarPlanetName').empty();
+		$('#hottestStarPlanetName').empty();
+	}
+	
+	</script>
+</head>
+
+<body>
+	<div class="Home" style="text-align:center">
+	<h1>Analyze Exoplanet Data</h1>
+	</div>
+	<form action="{{ url_for('orphanPlanets')}}">
+		<div class="form-group" style="padding-left: 8rem;">
+			<h3>The number of orphan planets (no star).</h3>
+			<button type="submit" id="submit" class="btn btn-primary">Orphan Planets</button>
+			<label id="orphanPlanets" name="orphanPlanets">{{ orphanPlanets }}</label>
+		</div>
+	</form>
+	<form action="{{ url_for('hottestStarPlanet')}}">
+		<div class="form-group" style="padding-left: 8rem;">
+			<h3>The name (planet identifier) of the planet orbiting the hottest star.</h3>
+			<button type="submit" id="submit" class="btn btn-primary">Planet Name</button>
+			<label id="hottestStarPlanetName" name="hottestStarPlanetName">{{ hottestStarPlanetName }}</label>
+		</div>
+	</form>
+	<form action="{{ url_for('groupBySize')}}">
+		<div class="form-group" style="padding-left: 8rem;">
+			<h3>Timeline of the number of planets discovered per year grouped by size.</h3>
+			<button type="submit" id="submit" class="btn btn-primary">Group Planets</button>
+			<label id="groupPlanets" name="groupPlanets">{{ groupPlanets }}</label>
+		</div>
+	</form>
+</body>
+</html>
