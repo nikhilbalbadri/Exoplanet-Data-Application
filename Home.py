@@ -8,28 +8,34 @@ from flask import Flask, render_template
 
 
 app = Flask(__name__)
-url = config.URL
-data = pd.DataFrame(Data.loadData(url))
+
+#Homepage
 @app.route("/")
 def home():
     return render_template('HomePage.html')
 
+#Route to get number of orphan planets
 @app.route('/orphanPlanets')
 def orphanPlanets():
     numOrphanPlanets = getOrphanPlanets(data)
-    return render_template('HomePage.html', orphanPlanets = '{}'.format(numOrphanPlanets))
+    return str(numOrphanPlanets)
+
+#Route to get planet with Hottest star
 @app.route('/hottestStarPlanet')
 def hottestStarPlanet():
     planetName = planetWithHottestStar(data)
-    return render_template('HomePage.html', hottestStarPlanetName = '{}'.format(planetName))
+    return planetName
 
+#Route to get Group by Planets based on Discovery Year and Size.
 @app.route('/groupBySize')
 def groupBySize():
-    result = groupPlanet(data)
-    return render_template('HomePage.html', groupPlanets = result)
+    groupPlanets = groupPlanet(data)
+    return groupPlanets
 
 
 if __name__ == "__main__":
+    url = config.URL
+    data = pd.DataFrame(Data.loadData(url))
     app.run()
 
 
