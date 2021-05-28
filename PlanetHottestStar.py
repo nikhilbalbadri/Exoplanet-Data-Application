@@ -1,3 +1,4 @@
+#Planet with HottestStar
 def planetWithHottestStar(data):
     data = data.replace('',0)
     maxTemp = data['HostStarTempK'].max()
