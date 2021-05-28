@@ -46,8 +46,14 @@
 					$("#tblGroupPlanetBySize").append(data.replace("dataframe","table"));
 				}
         		});
-		}
+			}
+        
     	});
+		$('#btnClear').click(function() {
+			$('#lblOrphanPlanets').html('');
+			$('#lblHottestStarPlanetName').html('');
+			$('#tblGroupPlanetBySize').empty();
+		});
 	})
 	</script>
 </head>
@@ -56,6 +62,7 @@
 	<div class="Home" style="text-align:center">
 	<h1>Analyze Exoplanet Data</h1>
 	</div>
+	<button class="btn btn-warning" style="float: right; margin-right: 150px;" id="btnClear" >Clear Queries</button>
 		<div class="form-group" style="padding-left: 8rem;">
 			<h3>The number of orphan planets (no star).</h3>
 			<button id="btnOrphan" class="btn btn-primary">Orphan Planets</button>
@@ -70,7 +77,10 @@
 			<h3>Timeline of the number of planets discovered per year grouped by size.</h3>
 			<button id="btnGroupPlanet" class="btn btn-primary">Group Planets</button>
 			<div id="tblGroupPlanetBySize" style="padding: 20px 800px 0px 20px;">
+
 			</div>
 		</div>
+	</form>
+
 </body>
 </html>
