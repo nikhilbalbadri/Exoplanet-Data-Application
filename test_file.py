@@ -28,24 +28,44 @@ def test_loadData():
     data = Data.loadData(config.URL)
     assert not data.empty
 
+#Fixture function returning Data from URL in dataframe format to be used as input to test other functions
 @pytest.fixture
 def planetData():
     return Data.loadData(config.URL)
 
-def test_orphanPlanet(planetData):
+#Test case to verify if data contains required columns used in orphanPlanet function.
+def test_orphanPlanetData(planetData):
+    assert set(['HostStarMassSlrMass','HostStarRadiusSlrRad', 'HostStarAgeGyr']).issubset(planetData.columns)
+
+#Test to check if condition to extract orphan planets returns no data
+def test_orphanPlanetNoData(planetData):
+    data = OrphanPlanets.getOrphanPlanets(planetData)
+    assert data != 0
+
+#Test case to check if function orphanPlanets returns an integer value
+def test_orphanPlanetReturnType(planetData):
     data = OrphanPlanets.getOrphanPlanets(planetData)
     assert type(data) == int
-    assert data
 
-def test_planetWithHottestStar(planetData):
-    data = PlanetHottestStar.planetWithHottestStar(planetData)
-    assert type(data) == str
-    assert data
-
-def test_planetWithHottestStarString(planetData):
+#Test case to check if function planetWithHottestStar returns a string
+def test_planetWithHottestStarReturnType(planetData):
     data = PlanetHottestStar.planetWithHottestStar(planetData)
     assert type(data) == str
 
-def test_groupPlanet(planetData):
+#Test case to verify if data contains required columns used in planetWithHottestStar function.
+def test_planetWithHottestStarData(planetData):
+    assert set(['HostStarTempK','PlanetIdentifier']).issubset(planetData.columns)
+
+#Test case to check if function groupPlanet returns a string
+def test_groupPlanetReturnType(planetData):
     data = GroupPlanet.groupPlanet(planetData)
-    assert data
+    assert type(data) == str
+
+#Test case to verify if data contains required columns used in groupPlanet function.
+def test_groupPlanetData(planetData):
+    assert set(['RadiusJpt','DiscoveryYear']).issubset(planetData.columns)
+
+#Test case to verify if output of groupPlanet function is set in html table format
+def test_groupPlanetResultData(planetData):
+    data = GroupPlanet.groupPlanet(planetData)
+    assert "table" in data
