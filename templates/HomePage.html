@@ -3,34 +3,52 @@
 	<head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<title>Analyze Exoplanet Data</title>
 	<style>
 	h1 {
-		margin-top: 7rem;
+		margin-top: 6rem;
+		margin-bottom: 2rem;
 		color: chocolate
 	}
-	p{
-	    margin-top: 36px;
-	}
-	.form-group{
-	    margin: 3rem !important;
-	}
-	.form-control{
-		width: 90%
-	}
 	label{
-		font-size:3rem;
+		font-size: 2.5rem;
 	}
 	</style>
 	<script>
-	function resetForm() {
-		$('#orphanPlanets').empty();
-		$('#hottestStarPlanetName').empty();
-		$('#hottestStarPlanetName').empty();
-	}
-	
+	$(function() {
+		// AJAX call to orphanPlanets Function
+        $('#btnOrphan').click(function() {
+        $.ajax({
+            url : '/orphanPlanets',
+            success: function(data) {
+				$("#lblOrphanPlanets").text(data);
+            	}
+        	});
+    	});
+		// AJAX call to hottestStarPlanet Function
+		$('#btnHottestStarPlanet').click(function() {
+        $.ajax({
+            url : '/hottestStarPlanet',
+            success: function(data) {
+				$("#lblHottestStarPlanetName").text(data);
+            	}
+        	});
+    	});
+		// AJAX call to groupBySize Function
+		$('#btnGroupPlanet').click(function() {
+			//Allows Ajax call to obtain data and append table if not present in the div
+			if (!$("#tblHottestStarPlanetName  table").length > 0){
+				$.ajax({
+            	url : '/groupBySize',
+            	success: function(data) {
+					$("#tblGroupPlanetBySize").append(data.replace("dataframe","table"));
+				}
+        		});
+		}
+    	});
+	})
 	</script>
 </head>
 
@@ -38,26 +56,21 @@
 	<div class="Home" style="text-align:center">
 	<h1>Analyze Exoplanet Data</h1>
 	</div>
-	<form action="{{ url_for('orphanPlanets')}}">
 		<div class="form-group" style="padding-left: 8rem;">
 			<h3>The number of orphan planets (no star).</h3>
-			<button type="submit" id="submit" class="btn btn-primary">Orphan Planets</button>
-			<label id="orphanPlanets" name="orphanPlanets">{{ orphanPlanets }}</label>
+			<button id="btnOrphan" class="btn btn-primary">Orphan Planets</button>
+			<label id="lblOrphanPlanets" name="orphanPlanets"></label>
 		</div>
-	</form>
-	<form action="{{ url_for('hottestStarPlanet')}}">
 		<div class="form-group" style="padding-left: 8rem;">
 			<h3>The name (planet identifier) of the planet orbiting the hottest star.</h3>
-			<button type="submit" id="submit" class="btn btn-primary">Planet Name</button>
-			<label id="hottestStarPlanetName" name="hottestStarPlanetName">{{ hottestStarPlanetName }}</label>
+			<button id="btnHottestStarPlanet" class="btn btn-primary">Planet Name</button>
+			<label id="lblHottestStarPlanetName" name="hottestStarPlanetName"></label>
 		</div>
-	</form>
-	<form action="{{ url_for('groupBySize')}}">
 		<div class="form-group" style="padding-left: 8rem;">
 			<h3>Timeline of the number of planets discovered per year grouped by size.</h3>
-			<button type="submit" id="submit" class="btn btn-primary">Group Planets</button>
-			<label id="groupPlanets" name="groupPlanets">{{ groupPlanets }}</label>
+			<button id="btnGroupPlanet" class="btn btn-primary">Group Planets</button>
+			<div id="tblGroupPlanetBySize" style="padding: 20px 800px 0px 20px;">
+			</div>
 		</div>
-	</form>
 </body>
 </html>
