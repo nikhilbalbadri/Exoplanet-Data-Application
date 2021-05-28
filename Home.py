@@ -37,5 +37,3 @@ if __name__ == "__main__":
     url = config.URL
     data = pd.DataFrame(Data.loadData(url))
     app.run()
-
-
